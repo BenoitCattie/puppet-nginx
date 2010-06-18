@@ -17,6 +17,10 @@ server {
 		include /etc/nginx/includes/fastcgi_params.inc;
 	}
 
+	location ~ /\.ht {
+                deny  all;
+        }
+
 <% if include  != '' %>	<%include.each do |inc| %>include <%= inc %>;
 	<% end -%><% end -%>
 }
