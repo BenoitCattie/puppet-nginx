@@ -1,6 +1,12 @@
 # Class: nginx
 #
 # Install nginx.
+#
+# Parameters:
+#	* $nginx_user. Defaults to 'www-data'. 
+#	* $nginx_worker_processes. Defaults to '1'.
+#	* $nginx_worker_connections. Defaults to '1024'.
+#
 # Create config directories :
 #	* /etc/nginx/conf.d for http config snippet
 #	* /etc/nginx/includes for sites includes
@@ -18,6 +24,9 @@ $nginx_conf = "/etc/nginx/conf.d"
 
 class nginx {
 
+	$real_nginx_user = $nginx_user ? { '' => 'www-data', default => $nginx_user }
+	$real_nginx_worker_processes = $nginx_worker_processes ? { '' => '1', default => $nginx_worker_processes }
+	$real_nginx_worker_connections = $nginx_worker_connections ? { '' => '1024', default => $nginx_worker_connections }
 
 	package { nginx: ensure => installed }
 

@@ -9,6 +9,11 @@ Based in part on apache2 module code by Sam Quigley <sq@wesabe.com>, Tim Stoop <
 
 ## Class: nginx ##
 
+Parameters (used in nginx.conf.erb) :
+       * $nginx_user. Defaults to 'www-data'. 
+       * $nginx_worker_processes. Defaults to '1'.
+       * $nginx_worker_connections. Defaults to '1024'.
+
 Install nginx.
 Create config directories :
 	* /etc/nginx/conf.d for http config snippet
