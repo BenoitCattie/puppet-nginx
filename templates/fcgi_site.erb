@@ -1,0 +1,23 @@
+server {
+        listen   <%= listen %> ;
+
+	server_name  <% real_server_name.each do |s_n| -%><%= s_n %> <% end -%>;
+
+        access_log  <%= real_access_log %>;
+
+	root <%= root %>;
+
+        location / {
+        }
+
+	location ~ \.php$ {
+		fastcgi_pass <%= fastcgi_pass %>;
+		fastcgi_index index.php;
+		fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+		include /etc/nginx/includes/fastcgi_params.inc;
+	}
+
+<% if include  != '' %>	<%include.each do |inc| %>include <%= inc %>;
+	<% end -%><% end -%>
+}
+
