@@ -59,7 +59,7 @@ class nginx::fcgi inherits nginx {
           	}
 
 		#Autogenerating ssl certs
-		if $listen == '443' and ( $ssl_certificate == '' or $ssl_certificate_key == '') {
+		if $listen == '443' and  $ensure == 'present' and ( $ssl_certificate == '' or $ssl_certificate_key == '') {
 			exec {"generate-${name}-certs":
 				command => "/usr/bin/openssl req -new -inform PEM -x509 -nodes -days 999 -subj '/C=ZZ/ST=AutoSign/O=AutoSign/localityName=AutoSign/commonName=${real_server_name}/organizationalUnitName=AutoSign/emailAddress=AutoSign/' -newkey rsa:2048 -out /etc/nginx/ssl/${name}.pem -keyout /etc/nginx/ssl/${name}.key",
 				unless	=> "/usr/bin/test -f /etc/nginx/ssl/${name}.pem",
