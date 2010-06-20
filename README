@@ -1,6 +1,6 @@
 # Nginx Recipe #
 Author	: Benoit CATTIE <puppet@benoit.cattie.net>
-Version	: 0.1
+Version	: 0.2
 Licence : Apache
 
 Basic module for configuring nginx via puppet.
@@ -20,6 +20,7 @@ Create config directories :
 	* /etc/nginx/includes for sites includes
 	* /etc/nginx/sites-enabled
 	* /etc/nginx/sites-available
+	* /etc/nginx/ssl
 
 Provide 4 definitions : 
 	* nginx::config (http config snippet)
@@ -78,19 +79,30 @@ Parameters :
  	* root: document root (Required)
 	* fastcgi_pass : port or socket on which the FastCGI-server is listening (Required)
 	* server_name : server_name directive (could be an array)
-	* listen : address/port the server listen to. Defaults to 80
+	* listen : address/port the server listen to. Defaults to 80. Auto enable ssl if 443
 	* access_log : custom acces logs. Defaults to /var/log/nginx/$name_access.log
-	* include : custom include for the site (could be an array). Include files must exists 
+	* include : custom include for the site (could be an array). Include files must exists
 	   to avoid nginx reload errors. Use with nginx::site_include
+	* ssl_certificate : ssl_certificate path. If empty auto-generating ssl cert
+	* ssl_certificate_key : ssl_certificate_key path. If empty auto-generating ssl cert key 
    See http://wiki.nginx.org for details.
 
 Templates :
 	* nginx/fcgi_site.erb
 
 Sample Usage :
+        nginx::fcgi::site {"default":
+                root            => "/var/www/nginx-default",
+                fastcgi_pass    => "127.0.0.1:9000",
+                server_name     => ["localhost", "$hostname", "$fqdn"],
+         }
 
- nginx::fcgi::site {"default":
- 	root		=> "/var/www/nginx-default",
-	fastcgi_pass	=> "127.0.0.1:9000",
- }
+        nginx::fcgi::site {"default-ssl":
+                listen          => "443",
+                root            => "/var/www/nginx-default",
+                fastcgi_pass    => "127.0.0.1:9000",
+                server_name     => "$fqdn",
+         }
 
+## CHANGELOG ##
+- v0.2 : * ssl support

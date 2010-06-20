@@ -47,8 +47,6 @@ class nginx {
 		require => Package["nginx"],
         }
 
-	# using checksum => mtime and notify ensures that any changes to this dir 
-	# will result in an apache reload
 	file { $nginx_conf:
 		ensure => directory,
 		mode => 644, 
@@ -57,7 +55,14 @@ class nginx {
 		require => Package["nginx"],
 	}
 
-	# as above
+	file { "/etc/nginx/ssl":
+		ensure => directory,
+		mode => 644, 
+		owner => root, 
+		group => root,
+		require => Package["nginx"],
+	}
+
 	file { $nginx_includes:
 		ensure => directory,
 		mode => 644, 
@@ -69,6 +74,7 @@ class nginx {
 	#Nuke default files
 	file { "/etc/nginx/fastcgi_params":
 		ensure => absent,
+		require => Package["nginx"],
 	}
 
 
@@ -120,9 +126,9 @@ class nginx {
 				}
 			}
 			'absent' : {
-				exec { "rm -f /etc/nginx/conf-enabled/$name":
+				exec { "rm -f /etc/nginx/sites-enabled/$name":
 					onlyif => "/bin/sh -c '[ -L /etc/nginx/sites-enabled/$name ] \\
-							&& [ $/etc/nginx/sites-enabled/$name -ef /etc/nginx/sites-available/$name ]'",
+							&& [ /etc/nginx/sites-enabled/$name -ef /etc/nginx/sites-available/$name ]'",
 					notify => Exec["reload-nginx"],
 					require => Package["nginx"],
 				}
