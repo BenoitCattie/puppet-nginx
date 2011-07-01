@@ -19,10 +19,11 @@
 # Templates:
 # 	- nginx.conf.erb => /etc/nginx/nginx.conf
 #
-$nginx_includes = "/etc/nginx/includes"
-$nginx_conf = "/etc/nginx/conf.d"
 
 class nginx {
+
+	$nginx_includes = "/etc/nginx/includes"
+	$nginx_conf = "/etc/nginx/conf.d"
 
 	$real_nginx_user = $nginx_user ? { '' => 'www-data', default => $nginx_user }
 	$real_nginx_worker_processes = $nginx_worker_processes ? { '' => '1', default => $nginx_worker_processes }
