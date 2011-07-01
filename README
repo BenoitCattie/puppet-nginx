@@ -77,6 +77,7 @@ You can use my php5-fpm class to manage fastcgi servers.
 Parameters :
  	* ensure: typically set to "present" or "absent". Defaults to "present"
  	* root: document root (Required)
+	* index: nginx index directive. Defaults to "index.php"
 	* fastcgi_pass : port or socket on which the FastCGI-server is listening (Required)
 	* server_name : server_name directive (could be an array)
 	* listen : address/port the server listen to. Defaults to 80. Auto enable ssl if 443
@@ -91,6 +92,10 @@ Templates :
 	* nginx/fcgi_site.erb
 
 Sample Usage :
+
+        include nginx
+        include nginx::fcgi
+
         nginx::fcgi::site {"default":
                 root            => "/var/www/nginx-default",
                 fastcgi_pass    => "127.0.0.1:9000",
