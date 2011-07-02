@@ -46,7 +46,7 @@ class nginx::fcgi inherits nginx {
 	#                 fastcgi_pass    => "127.0.0.1:9000",
 	#                 server_name     => "$fqdn",
 	#          }
-	define site ( $ensure = 'present', $root, $fastcgi_pass, $include = '', $listen = '80', $server_name = '', $access_log = '', $ssl_certificate = '', $ssl_certificate_key = '', $ssl_session_timeout = '5m') { 
+	define site ( $ensure = 'present', $index = 'index.php', $root, $fastcgi_pass, $include = '', $listen = '80', $server_name = '', $access_log = '', $ssl_certificate = '', $ssl_certificate_key = '', $ssl_session_timeout = '5m') { 
 
 		$real_server_name = $server_name ? { 
 			'' => "${name}",
