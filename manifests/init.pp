@@ -29,7 +29,7 @@ class nginx {
 	$real_nginx_worker_processes = $nginx_worker_processes ? { '' => '1', default => $nginx_worker_processes }
 	$real_nginx_worker_connections = $nginx_worker_connections ? { '' => '1024', default => $nginx_worker_connections }
 
-	package { nginx: ensure => installed }
+	if ! defined(Package['nginx']) { package { nginx: ensure => installed }}
 
 	service { nginx:
         	ensure => running,
