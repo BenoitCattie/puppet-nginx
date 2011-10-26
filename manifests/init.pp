@@ -176,6 +176,7 @@ class nginx {
 		exec { "ln -s /etc/nginx/sites-available/${name} /etc/nginx/sites-enabled/${name}":
 			unless => "/bin/sh -c '[ -L /etc/nginx/sites-enabled/$name ] \\
                                                                 && [ /etc/nginx/sites-enabled/$name -ef /etc/nginx/sites-available/$name ]'",
+			path => ["/usr/bin/"],
 			notify => Exec["reload-nginx"],
 			require => File["sites-$name"],
 		}
