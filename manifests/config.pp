@@ -21,7 +21,7 @@ define nginx::config($ensure='present', $content=undef, $order='500') {
     mode    => '0644',
     owner   => 'root',
     group   => 'root',
-    notify  => Exec['reload-nginx'],
+    notify  => Service['nginx'],
   }
 }
 

@@ -64,7 +64,7 @@ define nginx::fcgi::site(
         -newkey rsa:2048 -out /etc/nginx/ssl/${name}.pem -keyout /etc/nginx/ssl/${name}.key",
       unless  => "/usr/bin/test -f /etc/nginx/ssl/${name}.pem",
       require => File['/etc/nginx/ssl'],
-      notify  => Exec['reload-nginx'],
+      notify  => Service['nginx'],
     }
   }
 
