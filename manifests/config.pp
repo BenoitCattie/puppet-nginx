@@ -6,7 +6,8 @@
 #
 # Parameters :
 # * ensure: typically set to "present" or "absent". Defaults to "present"
-# * content: set the content of the config snipppet. Defaults to 'template("nginx/${name}.conf.erb")'
+# * content: set the content of the config snipppet.
+#            Defaults to 'template("nginx/${name}.conf.erb")'
 # * order: specifies the load order for this config snippet. Defaults to "500"
 #
 define nginx::config($ensure='present', $content=undef, $order='500') {
