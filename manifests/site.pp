@@ -18,7 +18,7 @@ define nginx::site($ensure='present', $content='') {
       exec { "/bin/rm -f /etc/nginx/sites-enabled/${name}":
         onlyif  => "/bin/sh -c '[ -L /etc/nginx/sites-enabled/${name} ] && \
           [ /etc/nginx/sites-enabled/$name -ef /etc/nginx/sites-available/${name} ]'",
-        notify  => Exec['reload-nginx'],
+        notify  => Service['nginx'],
         require => Package['nginx'],
       }
     }

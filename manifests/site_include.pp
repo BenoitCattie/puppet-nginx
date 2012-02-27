@@ -14,7 +14,7 @@ define nginx::site_include($ensure='present', $content='') {
     group   => 'root',
     content => $content,
     require => File[$nginx::nginx_includes],
-    notify  => Exec['reload-nginx'],
+    notify  => Service['nginx'],
   }
 }
 
