@@ -13,7 +13,7 @@ define nginx::install_site($content=undef) {
         owner   => 'root',
         group   => 'root',
         alias   => "sites-${name}",
-        notify  => Exec['reload-nginx'],
+        notify  => Service['nginx'],
         require => Package['nginx'],
       }
     }
@@ -26,7 +26,7 @@ define nginx::install_site($content=undef) {
         alias   => "sites-$name",
         content => $content,
         require => Package['nginx'],
-        notify  => Exec['reload-nginx'],
+        notify  => Service['nginx'],
       }
     }
   }
@@ -36,7 +36,7 @@ define nginx::install_site($content=undef) {
     unless  => "/bin/sh -c '[ -L /etc/nginx/sites-enabled/${name} ] && \
       [ /etc/nginx/sites-enabled/${name} -ef /etc/nginx/sites-available/${name} ]'",
     path    => ['/usr/bin/', '/bin/'],
-    notify  => Exec['reload-nginx'],
+    notify  => Service['nginx'],
     require => File["sites-${name}"],
   }
 }

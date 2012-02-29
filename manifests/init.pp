@@ -40,11 +40,13 @@ class nginx {
 
   if ! defined(Package['nginx']) { package { 'nginx': ensure => installed }}
 
+  #restart-command is a quick-fix here, until http://projects.puppetlabs.com/issues/1014 is solved
   service { 'nginx':
     ensure     => running,
     enable     => true,
     hasrestart => true,
     require    => File['/etc/nginx/nginx.conf'],
+    restart    => '/etc/init.d/nginx reload'
   }
 
   file { '/etc/nginx/nginx.conf':
@@ -53,7 +55,7 @@ class nginx {
     owner   => 'root',
     group   => 'root',
     content => template('nginx/nginx.conf.erb'),
-    notify  => Exec['reload-nginx'],
+    notify  => Service['nginx'],
     require => Package['nginx'],
   }
 
@@ -85,10 +87,5 @@ class nginx {
   file { '/etc/nginx/fastcgi_params':
     ensure  => absent,
     require => Package['nginx'],
-  }
-
-  exec { 'reload-nginx':
-    command     => '/etc/init.d/nginx reload',
-    refreshonly => true,
   }
 }
