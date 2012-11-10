@@ -10,6 +10,10 @@ events {
 }
 
 http {
+    <% if nginxversion =~ /^1\.\d{1,}\.\d{1,}$/ -%>
+    types_hash_max_size 2048;
+
+    <% end -%>
     include       /etc/nginx/mime.types;
 
     access_log	/var/log/nginx/access.log;
