@@ -10,6 +10,8 @@
 # Create config directories :
 # * /etc/nginx/conf.d for http config snippet
 # * /etc/nginx/includes for sites includes
+# * /etc/nginx/sites-available for sites configs
+# * /etc/nginx/sites-enabled for sites links
 #
 # Provide 3 definitions :
 # * nginx::config (http config snippet)
@@ -81,6 +83,14 @@ class nginx {
   }
 
   file { $nginx_includes:
+    ensure  => directory,
+    mode    => '0644',
+    owner   => 'root',
+    group   => 'root',
+    require => Package['nginx'],
+  }
+
+  file { ['/etc/nginx/sites-available', '/etc/nginx/sites-enabled']:
     ensure  => directory,
     mode    => '0644',
     owner   => 'root',
