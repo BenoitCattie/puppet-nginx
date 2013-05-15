@@ -37,6 +37,8 @@ define nginx::fcgi::site(
   $root,
   $fastcgi_pass,
   $ensure              = 'present',
+  $content             = undef,
+  $template            = undef,
   $index               = 'index.php',
   $include             = '',
   $listen              = '80',
@@ -78,9 +80,19 @@ define nginx::fcgi::site(
     default => $ssl_certificate_key,
   }
 
+  $site_template = $template ? {
+    undef   => 'nginx/fcgi_site.erb',
+    default => $template,
+  }
+
+  $site_content = $content ? {
+    undef   => template($site_template),
+    default => $content,
+  }
+
   nginx::site { $name:
     ensure  => $ensure,
-    content => template('nginx/fcgi_site.erb'),
+    content => $site_content,
   }
 }
 
