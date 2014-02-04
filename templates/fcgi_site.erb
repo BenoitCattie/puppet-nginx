@@ -7,7 +7,7 @@ server {
 
 	root <%= root %>;
 
-<% if listen == '443' %>
+<% if ssl_certificate_key %>
         ssl  on;
         ssl_certificate  <%= real_ssl_certificate %>;
         ssl_certificate_key  <%= real_ssl_certificate_key %>;
